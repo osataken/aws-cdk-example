@@ -46,12 +46,12 @@ class ECSFargateStack(Stack):
 
         repository = ecr.Repository.from_repository_name(self, construct_id, ecr_repository)
         image = ecs.ContainerImage.from_ecr_repository(repository, "latest")
-        load_balanced_fargate_service = ecs_patterns.ApplicationLoadBalancedFargateService(self, "FlightSpecialsService",
+        load_balanced_fargate_service = ecs_patterns.ApplicationLoadBalancedFargateService(self, "ExampleEcsFargateService",
             cluster=cluster,            # Required
             cpu=512,                    # Default is 256
             desired_count=2,            # Default is 1
             task_image_options=ecs_patterns.ApplicationLoadBalancedTaskImageOptions(
-                container_name="flightspecials",
+                container_name="ExampleEcsFargateService",
                 environment= { 
                     "DB_HOST" : db_cluster.cluster_read_endpoint.hostname,
                     "DB_USERNAME" : db_user,
@@ -67,4 +67,4 @@ class ECSFargateStack(Stack):
         )
         db_cluster.connections.allow_default_port_from(load_balanced_fargate_service.service);
         
-        CfnOutput(self, 'Flight DB Read Endpoint', value=db_cluster.cluster_read_endpoint.hostname)
+        CfnOutput(self, 'AuroraDB Read Endpoint', value=db_cluster.cluster_read_endpoint.hostname)
