@@ -1,7 +1,7 @@
 
-# Welcome to your CDK Python project!
+# Welcome to Osataken AWS CDK Python Example project!
 
-This is a blank project for CDK development with Python.
+This is a sample project for CDK development with Python.
 
 The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
