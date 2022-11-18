@@ -17,7 +17,7 @@ class ECSFargateStack(Stack):
 
         # Get existing VPC from VPC ID
         vpc = ec2.Vpc.from_lookup(self, "VPC",
-            vpc_id = "vpc-04d7b77ca873c8525" # << customize VPC ID here
+            vpc_id = "vpc-XXXXXXX" # << customize VPC ID here
         )
         cluster = ecs.Cluster(self, "ECSFargate-Cluster", vpc=vpc)
         
