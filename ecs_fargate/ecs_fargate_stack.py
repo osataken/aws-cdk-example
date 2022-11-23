@@ -12,13 +12,13 @@ from constructs import Construct
 
 class ECSFargateStack(Stack):
 
-    def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
+    def __init__(self, scope: Construct, construct_id: str, vpc: ec2.Vpc,**kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
         # Get existing VPC from VPC ID
-        vpc = ec2.Vpc.from_lookup(self, "VPC",
-            vpc_id = "vpc-XXXXXXX" # << customize VPC ID here
-        )
+        # vpc = ec2.Vpc.from_lookup(self, "VPC",
+        #    vpc_id = "vpc-XXXXXXX" # << customize VPC ID here
+        #)
         cluster = ecs.Cluster(self, "ECSFargate-Cluster", vpc=vpc)
         
         # Create RDS Aurora DB Cluster
@@ -41,11 +41,14 @@ class ECSFargateStack(Stack):
             )
         )
         
+        # Uncomment to pull image from ECR
+        # ecr_repository = "amazon/amazon-ecs-sample" #modify ECR repository here
+        # repository = ecr.Repository.from_repository_name(self, construct_id, ecr_repository)
+        # image = ecs.ContainerImage.from_ecr_repository(repository, "latest")
+        
+        image = ecs.ContainerImage.from_registry("amazon/amazon-ecs-sample", "latest")
+        
         # Create ECS Fargate Cluster
-        ecr_repository = "sample_ecr_repo" #modify ECR repository here
-
-        repository = ecr.Repository.from_repository_name(self, construct_id, ecr_repository)
-        image = ecs.ContainerImage.from_ecr_repository(repository, "latest")
         load_balanced_fargate_service = ecs_patterns.ApplicationLoadBalancedFargateService(self, "ExampleEcsFargateService",
             cluster=cluster,            # Required
             cpu=512,                    # Default is 256
@@ -58,9 +61,9 @@ class ECSFargateStack(Stack):
                     "DB_PASSWORD" : db_password
                 },
                 image=image, 
-                container_port=8080),
+                container_port=80),
             memory_limit_mib=2048,      # Default is 512
-            public_load_balancer=False)  # Default is True
+            public_load_balancer=True)  # Default is True
             
         load_balanced_fargate_service.target_group.configure_health_check(
             path="/" #modify healthcheck path here
