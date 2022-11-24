@@ -4,7 +4,7 @@ from aws_cdk import (
 )
 from constructs import Construct
 
-class VpcSubnetStack(Stack):
+class VpcSubnet(Construct):
 
     @property
     def vpc(self):

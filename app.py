@@ -3,14 +3,12 @@ import os
 
 import aws_cdk as cdk
 
-from ecs_fargate.ecs_fargate_stack import ECSFargateStack
-from vpc_subnet.vpc_subnet_stack import VpcSubnetStack
+from cdk_example_stack.cdk_example_stack import CdkExampleStack
 
 
 app = cdk.App()
 
-# Uncomment to try different example construct
-vpc_stack = VpcSubnetStack(app, "VpcSubnetStack")
-ecs_stack = ECSFargateStack(app, "ECSFargateStack", vpc=vpc_stack.vpc)
+# Modify list of Construct inside CdkExampleStack to adjust modules/components that you would like to try
+example_stack = CdkExampleStack(app, "CDKExampleStack")
 
 app.synth()

@@ -45,7 +45,7 @@ $ cdk synth
 
 To deploy CDK stack(s), run the following command
 ```
-$ cdk deploy [selected stack] or [--all] to run multiple stacks
+$ cdk deploy [selected stack] or [--all] to run multiple stacks (if you have)
 ```
 
 To add additional dependencies, for example other CDK libraries, just add
